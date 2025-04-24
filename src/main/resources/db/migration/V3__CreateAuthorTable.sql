@@ -1,0 +1,6 @@
+CREATE TABLE author
+(
+    id SERIAL PRIMARY KEY,
+    fio TEXT NOT NULL,
+    created TIMESTAMP NOT NULL
+);

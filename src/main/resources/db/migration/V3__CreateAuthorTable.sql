@@ -1,6 +1,6 @@
-CREATE TABLE author
+create table author
 (
-    id SERIAL PRIMARY KEY,
-    fio TEXT NOT NULL,
-    created TIMESTAMP NOT NULL
+    id     serial primary key,
+    fio    varchar(255)  not null,
+    creation_time  timestamp  not null
 );

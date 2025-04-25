@@ -6,14 +6,14 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 
 /**
- * @author
+ * Сервис по добавлению автора
  */
 object AuthorService {
-    suspend fun addRecord(body: AuthorRecord): AuthorRecord = withContext(Dispatchers.IO) {
+    suspend fun addRecord(body: AuthorRecord): AuthorRecordResponse = withContext(context = Dispatchers.IO) {
         transaction {
             val entity = AuthorEntity.new {
                 this.fio = body.fio
-                this.created = DateTime.now()
+                this.creationTime = DateTime.now()
             }
 
             return@transaction entity.toResponse()

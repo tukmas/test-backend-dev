@@ -12,69 +12,52 @@ import com.papsign.ktor.openapigen.route.path.normal.get
 import com.papsign.ktor.openapigen.route.path.normal.post
 import com.papsign.ktor.openapigen.route.response.respond
 import com.papsign.ktor.openapigen.route.route
+import mobi.sevenwinds.app.author.AuthorRecordResponse
 
+/**
+ * Роуты работы с бюджетом
+ */
 fun NormalOpenAPIRoute.budget() {
-    route("/budget") {
-        route("/add").post<Unit, BudgetRecord, BudgetRecord>(info("Добавить запись")) { param, body ->
-            respond(BudgetService.addRecord(body))
+    route(path = "/budget") {
+        route(path = "/add").post<Unit, BudgetRecord, BudgetRecord>(info(summary = "Добавить запись")) { _, body ->
+            respond(response = BudgetService.addRecord(body))
         }
 
         route("/year/{year}/stats") {
-            get<BudgetYearParam, BudgetYearStatsResponse>(info("Получить статистику за год")) { param ->
-                respond(BudgetService.getYearStats(param))
+            get<BudgetYearParam, BudgetYearStatsResponse>(info(summary = "Получить статистику за год")) { param ->
+                respond(response = BudgetService.getYearStats(param))
             }
         }
     }
 }
 
 data class BudgetRecord(
-    @Min(1900) val year: Int,
-    @Min(1) @Max(12) val month: Int,
-    @Min(1) val amount: Int,
+    @Min(value = 1900) val year: Int,
+    @Min(value = 1) @Max(value = 12) val month: Int,
+    @Min(value = 1) val amount: Int,
     val type: BudgetType,
-    val authorId: Int? = null
+    @Min(value = 1) @JsonInclude(value = JsonInclude.Include.NON_NULL) val author: Int? = null
 )
 
-data class BudgetRecordWithAuthorName(
-    val year: Int,
-    val month: Int,
-    val amount: Int,
+data class BudgetRecordWithAuthor(
+    @Min(value = 1900) val year: Int,
+    @Min(value = 1) @Max(value = 12) val month: Int,
+    @Min(value = 1) val amount: Int,
     val type: BudgetType,
-    @JsonInclude(JsonInclude.Include.NON_NULL) val authorName: String?,
-    @JsonInclude(JsonInclude.Include.NON_NULL) val authorCreated: String?
-) {
-    constructor(budgetRecord: BudgetRecord) :
-            this(
-                budgetRecord.year,
-                budgetRecord.month,
-                budgetRecord.amount,
-                budgetRecord.type,
-                null,
-                null
-            )
-
-    constructor(budgetRecord: BudgetRecord, authorName: String?, authorCreated: String?) :
-            this(
-                budgetRecord.year,
-                budgetRecord.month,
-                budgetRecord.amount,
-                budgetRecord.type,
-                authorName,
-                authorCreated
-            )
-}
+    val author: AuthorRecordResponse? = null
+)
 
 data class BudgetYearParam(
-    @PathParam("Год") val year: Int,
-    @QueryParam("Лимит пагинации") val limit: Int,
-    @QueryParam("Смещение пагинации") val offset: Int,
-    @QueryParam("ФИО автора") @MinLength(3) val authorName: String?
+    @PathParam(description = "Год") val year: Int,
+    @QueryParam(description = "Лимит пагинации") val limit: Int,
+    @QueryParam(description = "Смещение пагинации") val offset: Int,
+    @QueryParam(description = "ФИО автора") @MinLength(value = 3) val fio: String?
 )
 
 class BudgetYearStatsResponse(
-    val total: Int, // общее количество записей
-    val totalByType: Map<String, Int>,  // сумма по каждому типу
-    val items: List<BudgetRecordWithAuthorName> // список записей с учетом пагинации
+    val total: Int,
+    val totalByType: Map<String, Int>,
+    val items: List<BudgetRecordWithAuthor>
 )
 
 enum class BudgetType {

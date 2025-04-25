@@ -8,16 +8,21 @@ import com.papsign.ktor.openapigen.route.response.respond
 import com.papsign.ktor.openapigen.route.route
 
 /**
- * @author
+ * Роуты работы с автором
  */
 fun NormalOpenAPIRoute.author() {
-    route("/author") {
-        route("/add").post<Unit, AuthorRecord, AuthorRecord>(info("Добавить автора")) { param, body ->
-            respond(AuthorService.addRecord(body))
+    route(path = "/author") {
+        route(path = "/add").post<Unit, AuthorRecordResponse, AuthorRecord>(info(summary = "Добавить автора")) { param, body ->
+            respond(response = AuthorService.addRecord(body))
         }
     }
 }
 
 data class AuthorRecord(
-    @MinLength(3) val fio: String
+    @MinLength(value = 3) val fio: String
+)
+
+data class AuthorRecordResponse(
+    val fio: String,
+    val creationTime: String
 )

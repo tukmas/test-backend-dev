@@ -1,3 +1,7 @@
-UPDATE budget
-SET type = 'Расход'
-WHERE type = 'Комиссия';
+begin;
+
+update budget
+set type = 'Расход'
+where type = 'Комиссия';
+
+commit;

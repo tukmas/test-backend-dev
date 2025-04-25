@@ -6,20 +6,20 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
 /**
- * @author
+ * Таблица Автор
  */
-object AuthorTable : IntIdTable("author") {
-    val fio = text("fio")
-    val created = datetime("created")
+object AuthorTable : IntIdTable(name = "author") {
+    val fio = varchar(name = "fio",255)
+    val creation_time = datetime(name = "creation_time")
 }
 
 class AuthorEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<AuthorEntity>(AuthorTable)
 
     var fio by AuthorTable.fio
-    var created by AuthorTable.created
+    var creationTime by AuthorTable.creation_time
 
-    fun toResponse(): AuthorRecord {
-        return AuthorRecord(fio)
+    fun toResponse(): AuthorRecordResponse  {
+        return AuthorRecordResponse(fio, creationTime = creationTime.toString())
     }
 }

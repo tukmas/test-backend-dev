@@ -38,6 +38,6 @@
 
 ![3213215777](https://github.com/user-attachments/assets/e452b88c-5f66-4fd7-b0e6-f0b1e72323af)
 
-3 Ответ с ФИО и временем если оно есть,  а так же фильтр по Имени:
+3 Ответ /budget/year/{year}/stats` с ФИО и временем если оно есть,  а так же фильтр по Имени:
 
 ![6](https://github.com/user-attachments/assets/c494a267-c9a8-4911-af84-04833098876d)

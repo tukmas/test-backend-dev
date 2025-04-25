@@ -11,3 +11,33 @@
    * Дополнить `/budget/add` возможностью указать ID автора (опциональное поле)
    * В элементах ответа `/budget/year/{year}/stats` выводить ФИО автора, если он указан для записи, а также время создания записи автора.
    * Добавить в параметры запроса `/budget/year/{year}/stats` опциональный фильтр по ФИО автора и фильтровать по совпадению подстроки игнорируя регистр
+
+## Решение
+
+1 Тесты работают корректно:
+
+![4](https://github.com/user-attachments/assets/57bfe411-d6fb-4a1d-a584-9e5f1c11ea3b)
+
+2 Миграция:
+
+![5](https://github.com/user-attachments/assets/325b4f18-69c0-4f89-bf8e-3710d6b3eb4c)
+
+3 Таблица Автор с автоматическим проставлением даты:
+
+![333](https://github.com/user-attachments/assets/2e312d37-16f5-4a6d-95ca-c72101f40b80)
+
+3 Метод добавления новой записи автор:
+
+![33331115](https://github.com/user-attachments/assets/23cd5089-d173-46fd-9951-32e76b662fda)
+
+3 Привязка между таблиц автор и бюджет:
+
+![7](https://github.com/user-attachments/assets/55134ca9-557a-4b73-b0af-af7320a0079d)
+
+3 Возможность указать ID автора:
+
+![3213215777](https://github.com/user-attachments/assets/e452b88c-5f66-4fd7-b0e6-f0b1e72323af)
+
+3 Ответ с ФИО и временем если оно есть,  а так же фильтр по Имени:
+
+![6](https://github.com/user-attachments/assets/c494a267-c9a8-4911-af84-04833098876d)
